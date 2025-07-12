@@ -3,10 +3,10 @@ package Login;
 import java.util.Random;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.By.ByXPath;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -30,7 +30,7 @@ public class TESTCASES {
 	
 	@Test
 	
-	public void signup() {
+	public void signup() throws InterruptedException {
 		
 		driver.navigate().to(SignUpPage);
 
@@ -49,9 +49,12 @@ public class TESTCASES {
 		WebElement LoginInput = driver.findElement(By.xpath("//input[@id='AccountFrm_loginname']"));
 		WebElement PasswordInput = driver.findElement(By.id("AccountFrm_password"));
 		WebElement PasswordInputconfirm = driver.findElement(By.id("AccountFrm_confirm"));
-
-		//Data
+		WebElement AgreeBox = driver.findElement(By.id("AccountFrm_agree"));
+		WebElement ContinueButton = driver.findElement(By.cssSelector(".btn.btn-orange.pull-right.lock-on-click"));
+		WebElement CountySelect = driver.findElement(By.id("AccountFrm_country_id"));
+		WebElement StateSelect = driver.findElement(By.id("AccountFrm_zone_id"));
 		
+		//Data
 		String [] FirstNames  = {"Randah","rania","rojaina","sonia"};
 		int RandomIndexForFirstNames = rand.nextInt(FirstNames.length);
 		String RandomFirstNames= FirstNames[RandomIndexForFirstNames];
@@ -68,7 +71,6 @@ public class TESTCASES {
 		String Address1 = "mecca1";
 		String Address2 = "mecca2";
 		String City = "Amman";
-		String PostalCode= "5998";
 		String LoginName= RandomFirstNames+RandomLastNames;
 		String Password="R569823";
 		
@@ -83,10 +85,53 @@ public class TESTCASES {
 		Address1Input.sendKeys(Address1);
 		Address2Input.sendKeys(Address2);
 		CityInput.sendKeys(City);
-		PostalCodeInput.sendKeys(PostalCode);
+		
+
+		int NumberOfOptionsForCountry = CountySelect.findElements(By.tagName("option")).size();		
+		Select MySelectForCounty = new Select(CountySelect);
+	    int RandomCountyindex= rand.nextInt(NumberOfOptionsForCountry);
+		MySelectForCounty.selectByIndex(RandomCountyindex);
+		
+		
+	
+
+		
+		
+	//	MySelectForCounty.selectByVisibleText("Jordan");
+		
+		Thread.sleep(3000);
+		
+		int NumberOfOptions = StateSelect.findElements(By.tagName("option")).size();		
+	    Select MySelectForState = new Select (StateSelect);
+		int RandomStateindex= rand.nextInt(1,NumberOfOptions);
+		MySelectForState.selectByIndex(RandomStateindex);
+		
+
+		
+//		Select MySelectForState = new Select (StateSelect);
+//		int RandomStateindex= rand.nextInt(1,NumberOfOptions);
+//		MySelectForState.selectByIndex(RandomStateindex);
+//		MySelectForState.selectByValue("1705");
+
+		
+		
+		Thread.sleep(1000);
+		System.out.println(NumberOfOptions);
+
+		
+		
+		
+		
+		
+
+		
+				
+		PostalCodeInput.sendKeys("5555");
 		LoginInput.sendKeys(LoginName+RandomNumberForTheEmail);
 		PasswordInput.sendKeys(Password);
 		PasswordInputconfirm.sendKeys(Password);
+		AgreeBox.click();
+		ContinueButton.click();
 		
 		
 		
